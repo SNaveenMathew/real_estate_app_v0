@@ -1,0 +1,61 @@
+# Ignore data files
+*.csv
+*.CSV
+*.Rds
+*.rds
+*.RDS
+*.rda
+*.rdata
+*.RData
+*.xlsx
+
+# Common data directories
+BikePGH/
+Census Bureau/
+Crime/
+Flood/
+Market Indices/
+NRI/
+Sold/
+Walkability/
+Zillow/
+Smart Location/
+
+# R / RStudio
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+.Ruserdata
+.Renviron
+.Renviron.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+venv*/
+pip-wheel-metadata/
+*.egg-info/
+dist/
+build/
+.mypy_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Misc temporary files
+*.log
+*.tmp
+*~
+.DS_Store
+Thumbs.db
+
+# Ignore previously processed or exported datasets
+*.Rds
+*.csv
