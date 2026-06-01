@@ -31,7 +31,10 @@ transit_desc <- NA
 excel_files <- list.files(".", full.names = T)
 excel_files <- sort(excel_files[grepl(excel_files, pattern = "\\.csv$", ignore.case = T) &
                       grepl(excel_files, pattern = "redfin", ignore.case = F)])
-walkscore_api_key <- "dd9c1880465ecfd970388a5a454d0ec9"
+walkscore_api_key <- Sys.getenv("WALKSCORE_API_KEY", unset = "")
+if(walkscore_api_key == "") {
+  stop("WALKSCORE_API_KEY must be set in .Renviron.local or the environment before running process_redfin.R")
+}
 walkscore_api_query_link <- "https://api.walkscore.com/score?format=json&address="
 
 #####################################

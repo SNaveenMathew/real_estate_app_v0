@@ -1,0 +1,5 @@
+# Copy this file to .Renviron.local and fill in your real API keys.
+# This file is ignored by Git, so it is safe to store local secrets here.
+
+WALKSCORE_API_KEY=your_walkscore_api_key_here
+PTV_API_KEY=your_ptv_api_key_here

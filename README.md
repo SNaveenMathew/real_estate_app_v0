@@ -44,6 +44,7 @@ Create and activate an isolated Python virtual environment or use your preferred
 ## Dependencies
 
 - R: install required packages as used by the `process_*.R` scripts. Consider using `renv` to snapshot dependencies.
+- Environment variables: put API keys in `.Renviron.local` (ignored by Git). See `.Renviron.local.example` for the required names.
 
 ## Sequence of execution
 
@@ -78,7 +79,7 @@ Rscript process_redfin.R
 - Date parsing: the script derives the CSV date from the filename (splits on `_` and parses the date-like token).
 - Walkscore API: for rows that lack previously-stored walk/bike/transit scores, the script queries the Walkscore API using address plus `lat`/`lon` when available (it requests `transit=1&bike=1`). Responses are parsed for `walkscore`, `description`, `bike.score`, `bike.description`, `transit.score`, and `transit.description` and written into the processed records.
 	- The script caches prior Walkscore lookups in `previously_processed_rows.Rds` and avoids repeated API calls for addresses already searched.
-	- The Walkscore API key is currently set in the script (`walkscore_api_key`); consider moving the key into an environment variable or a local config file to avoid committing secrets.
+	- The Walkscore API key is read from `WALKSCORE_API_KEY` in `.Renviron.local` or the environment.
 - Error handling: JSON fields are accessed with `tryCatch` fallbacks so missing fields become `NA` instead of causing failures.
 - Outputs: after processing, the script deduplicates and saves `previously_processed_rows.Rds`, generates `latest_info.Rds` which contains one latest snapshot per address/city/state/zip, and populates an HTML `popup_df` for use in map popups (via `utils.R` -> `table_to_popup_df`).
 - Nearest-city mapping: the script reads `House.xlsx` sheet `City` to append `nearest_big_city` and `crime_city` to `latest_info`; it only saves `latest_info.Rds` when every row can be mapped to a nearest city.
