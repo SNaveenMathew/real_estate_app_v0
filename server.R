@@ -52,7 +52,18 @@ server <- function(input,output, session) {
   output$map_type_input_ui <- renderUI({
     if(!is.null(input$nearest_big_city)) {
       if(length(input$nearest_big_city) == 1) {
-        if(input$nearest_big_city %in% c("Pittsburgh", "Chicago", "Baltimore", "Indianapolis", "Buffalo", "Philadelphia", "Boston", "Minneapolis")) {
+        if(input$nearest_big_city %in% c("Pittsburgh")) {
+          return(
+            fluidRow(
+              selectInput(
+                inputId = "map_type_input",
+                label = "Type of map:",
+                choices = c("Crime" = "Crime", "Walk" = "Walk", "Flood" = "Flood")
+              )
+            )
+          )
+        }
+        if(input$nearest_big_city %in% c("Chicago", "Baltimore", "Indianapolis", "Buffalo", "Philadelphia", "Boston", "Minneapolis")) {
           return(
             fluidRow(
               selectInput(
@@ -240,7 +251,7 @@ server <- function(input,output, session) {
               return(m)
             }
           }
-          } else if(!is.null(input$map_type_input == "Walk")) {
+          } else if(input$map_type_input == "Walk") {
             return(
               m %>%
                 addPolygons(data = df1_1, fillColor = ~pal(NatWalkInd), stroke = NA, fillOpacity = .5, popup = ~NatWalkInd) %>%
@@ -253,6 +264,17 @@ server <- function(input,output, session) {
                 addPolylines(data = caution, color = "red", weight = 5, label = "Cautionary Bike Lane") %>%
                 addPolylines(data = trail, color = "pink", weight = 5, label = "Trail") %>%
                 addLegend(data = df1_1, pal = pal, values = ~NatWalkInd)
+            )
+          } else if(input$map_type_input == "Flood") {
+            return(
+              m %>%
+                addTiles() %>%
+                addPolygons(data = shapeData_pittsburgh,
+                            color = ~colorFactor("Set3", shapeData_pittsburgh$FLD_ZONE)(FLD_ZONE),
+                            weight = 1,
+                            opacity = 0.7,
+                            fillOpacity = 0.5,
+                            popup = ~FLD_ZONE)
             )
           }
         }
